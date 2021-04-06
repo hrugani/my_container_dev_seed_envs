@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
   mariadb:
@@ -55,7 +55,7 @@ services:
 #      ME_CONFIG_MONGODB_ADMINUSERNAME: root
 #      ME_CONFIG_MONGODB_ADMINPASSWORD: iwcare@1
 
-  jasperreports:
+  jasper-server:
     container_name: jasper-server
     image: 'docker.io/bitnami/jasperreports:7-debian-10'
     restart: always
@@ -66,7 +66,7 @@ services:
       - JASPERREPORTS_DATABASE_USER=bn_jasperreports
       - JASPERREPORTS_DATABASE_NAME=bitnami_jasperreports
     ports:
-      - '80:8080'
+      - 80:8080
     volumes:
       - ./jasper-server-data:/bitnami
     depends_on:
@@ -74,7 +74,7 @@ services:
 
 
   portainer-agent:
-    container_name: portainer_agent
+    container_name: portainer-agent
     image: portainer/agent
     restart: always
     ports:
@@ -93,6 +93,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer-data:/data
+
+  iw-simple-mirror:
+    container_name: db-mirror
+    image: ghcr.io/oracle/oraclelinux7-golang:1.13
+    ports:
+      - 5000:5000
+  
+
 
 #volumes:
 #  mariadb_data:
