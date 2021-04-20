@@ -40,11 +40,12 @@ services:
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=iwcare@1
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=iw
     volumes:
       - ./mongodb-data:/data/db
 
-
+# mongo-express from dockerhub docs
 #  mongo-express:
 #    container_name: mongodb-express
 #    image: mongo-express
@@ -54,6 +55,22 @@ services:
 #    environment:
 #      ME_CONFIG_MONGODB_ADMINUSERNAME: root
 #      ME_CONFIG_MONGODB_ADMINPASSWORD: iwcare@1
+
+# mongo express from imersao-fullcycle course
+  # mongo-express:
+  #   container_name: mongo-express
+  #   image: mongo-express
+  #   restart: always
+  #   ports: 
+  #     - 8081:8081
+  #   environment: 
+  #     - ME_CONFIG_MONGODB_SERVER=mongodb
+  #     - ME_CONFIG_MONGODB_AUTH_USERNAME=root
+  #     - ME_CONFIG_MONGODB_AUTH_PASSWORD=root
+  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=root  
+  #   depends_on:
+  #     - db 
 
   jasper-server:
     container_name: jasper-server
@@ -94,12 +111,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer-data:/data
 
-  iw-simple-mirror:
+  iw-simple-db-mirror:
     container_name: db-mirror
-    image: ghcr.io/oracle/oraclelinux7-golang:1.13
+    #image: ghcr.io/oracle/oraclelinux7-golang:1.13
+    image: hrugani/simple-database-mirror
     ports:
       - 5000:5000
-  
+    volumes:
+      ./simple-db-mirror-data:/simple-db-mirror-data
+
 
 
 #volumes:
